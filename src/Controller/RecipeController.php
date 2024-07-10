@@ -31,7 +31,10 @@ class RecipeController extends AbstractController
         'id'=>$id,
         'person'=>[
             'firstame'=>'Mickael',
-            'lastname'=>'mika'
+            'lastname'=>'shohag',
+            'id'=>10,
+            'formation'=>'Symfony'
+            
         
         ]
         
