@@ -30,8 +30,8 @@ class RecipeController extends AbstractController
         'slug'=>$slug,
         'id'=>$id,
         'person'=>[
-            'firstame'=>'shaihn',
-            'lastname'=>'rahman'
+            'firstame'=>'Mickael',
+            'lastname'=>'mika'
         
         ]
         
