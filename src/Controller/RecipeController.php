@@ -4,6 +4,7 @@ namespace App\Controller;
 // use\App\Entity\Recipe;
 
 use App\Entity\Recipe;
+use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ class RecipeController extends AbstractController
     #[Route('/recette', name: 'recipe.index')]
     public function index(Request $request, RecipeRepository $repository, EntityManagerInterface $em): Response
     {
+      // dd($em->getRepository(Recipe::class));
        $recipes = $repository ->findWithDuration(20);
     //    dd($recipes);
     // $recipes[0]->setTitle('Pâtes bolognaise');
@@ -27,13 +29,19 @@ class RecipeController extends AbstractController
     
     // pour ansere de donnees
     $recipe = new Recipe();
-    $recipe->setTitle('Barbe papa')
-            ->setContent('Mettez du sucre')
-            ->setDuration(2)
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable());
-    $em->persist($recipe);
-    $em->flush();
+    // $recipe->setTitle('Barbe papa')
+    //         ->setContent('Mettez du sucre')
+    //         ->setDuration(2)
+    //         ->setCreatedAt(new \DateTimeImmutable())
+    //         ->setUpdatedAt(new \DateTimeImmutable());
+    // $em->persist($recipe);
+    
+
+    // supprimer de base de donnees
+    
+    // $em->remove($recipes[0]);
+    // $em->flush();
+    
     
 
     
@@ -59,6 +67,16 @@ class RecipeController extends AbstractController
         'recipe'=>$recipe
         
         ]);
+    }
+
+    #[Route('/recette/{id}/edit', name:'recipe.edit')]
+    
+    public function edit(Recipe $recipe){
+      $form = $this->createForm(RecipeType::class);
+      
+      return $this->render('recipe/index.html.twig',[
+        'recipe'=>$recipe
+      ]);
     }
 
     
