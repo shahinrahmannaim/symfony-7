@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Recipe;
+use App\Entity\Recipeclear;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Recipe>
+ * @extends ServiceEntityRepository<Recipeclear>
  */
-class RecipeRepository extends ServiceEntityRepository
+class RecipeclearRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Recipe::class);
+        parent::__construct($registry, Recipeclear::class);
     }
 
     //    /**
-    //     * @return Recipe[] Returns an array of Recipe objects
+    //     * @return Recipeclear[] Returns an array of Recipeclear objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class RecipeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Recipe
+    //    public function findOneBySomeField($value): ?Recipeclear
     //    {
     //        return $this->createQueryBuilder('r')
     //            ->andWhere('r.exampleField = :val')
@@ -40,23 +40,4 @@ class RecipeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-
-
-
-    /**
-     * Summary of findWithDuration
-     * @return Recipe[]
-     */
-    public function findWithDuration(int $duration): array
-    {
-        
-        return $this->createQueryBuilder('r')
-        ->where('r.duration <= :duration')
-        ->orderBy('r.duration','ASC')
-        ->setMaxResults(5)
-        ->setParameter('duration',$duration)
-        ->getQuery()
-        ->getResult();
-        
-    }
 }
