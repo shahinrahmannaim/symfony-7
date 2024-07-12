@@ -31,8 +31,25 @@
     </form>
   </div>
 </nav>
+
+
         <div class="container my-4">
-        {% block body %}{% endblock %}
+
+        <div>
+          {%  include 'partials/flash.html.twig' %}  
+         
         </div>
+
+
+        {% block body %}
+      
+      
+      
+      {% endblock %}
+        </div>
+        
+
+        
+        
     </body>
 </html>
