@@ -122,8 +122,12 @@ class RecipeController extends AbstractController
       
       $em->remove($recipe);
       $em->flush();
-      $this->addFlash('success','**********************');
+
+      $this->addFlash('success','the recipe has been deleted !!!');
+ 
       return $this->redirectToRoute('recipe.index');
+
+      
     
       
     }
