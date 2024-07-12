@@ -16,8 +16,6 @@ use Symfony\Component\Validator\Constraints\Json;
 class RecipeController extends AbstractController
 {
    
-   
-   
     #[Route('/recette', name: 'recipe.index')]
     public function index(Request $request, RecipeRepository $repository, EntityManagerInterface $em): Response
     {
@@ -51,12 +49,21 @@ class RecipeController extends AbstractController
         
     }
    
-
-   
    
     #[Route('/recette/{slug}-{id}', name: 'recipe.show',requirements:['id'=>'\d+','slug'=>'[a-z0-9-]+'])]
     public function show(Request $request, string $slug, int $id, RecipeRepository $repository ): Response
     {
+ Branche_collegue
+        return $this->render('recipe/show.html.twig',[
+        'slug'=>$slug,
+        'id'=>$id,
+        'person'=>[
+            'firstame'=>'Mickael',
+            'lastname'=>'shohag',
+            'id'=>11,
+            'formation'=>'Symfony',
+          'conflict'=>'resolved'
+        ]
        $recipe = $repository->find($id);
        if($recipe->getId() !== $id){
         return $this->redirectToRoute('recipe.show',['id'=>$recipe->getId()]); 
@@ -65,6 +72,7 @@ class RecipeController extends AbstractController
        
         return $this->render('recipe/show.html.twig',[
         'recipe'=>$recipe
+ main
         
         ]);
     }
