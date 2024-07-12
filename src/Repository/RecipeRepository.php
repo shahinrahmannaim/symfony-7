@@ -40,4 +40,23 @@ class RecipeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+
+    /**
+     * Summary of findWithDuration
+     * @return Recipe[]
+     */
+    public function findWithDuration(int $duration): array
+    {
+        
+        return $this->createQueryBuilder('r')
+        ->where('r.duration <= :duration')
+        ->orderBy('r.duration','ASC')
+        ->setMaxResults(5)
+        ->setParameter('duration',$duration)
+        ->getQuery()
+        ->getResult();
+        
+    }
 }

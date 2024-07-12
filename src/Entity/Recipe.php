@@ -14,20 +14,8 @@ class Recipe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::ASCII_STRING)]
-    private $Title;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $Content = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAT = null;
-
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $updatedat = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $duration = null;
+    private ?string $title = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -35,40 +23,27 @@ class Recipe
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $duration = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
+
+    #[ORM\Column(length: 255)]
+   
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle($Title): static
+    public function setTitle(string $title): static
     {
-        $this->Title = $Title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->Content;
-    }
-
-    public function setContent(string $Content): static
-    {
-        $this->Content = $Content;
-
-        return $this;
-    }
-
-  
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAT = $createdAt;
+        $this->title = $title;
 
         return $this;
     }
@@ -76,6 +51,13 @@ class Recipe
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
@@ -90,4 +72,28 @@ class Recipe
         return $this;
     }
 
-}    
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?string $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): static
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+}

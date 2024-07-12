@@ -4,12 +4,15 @@
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate laborum praesentium reprehenderit porro rerum ducimus, iure possimus numquam 
 cum excepturi.</p>
+{% for recipe in recipes %}
 
 <ul>
     <li>
-        <a href="{{  url('recipe.show', {id:32, slug: 'pate-bolognaise'} )  }}">Pate bolognaise</a>
+        <a href="{{  url('recipe.show', {id:recipe.id, slug: 'pate-bolognaise'} )  }}"> {{recipe.title}} </a>
     </li>
 </ul>
+ {% endfor %} 
+
 {% endblock %}
 
 
