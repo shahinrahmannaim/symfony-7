@@ -3,30 +3,46 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use App\Validator\BanWord;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints  as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+
+#[UniqueEntity('title')]
 class Recipe
-{
+{ 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:10, groups:['Extra'])]
+    #[BanWord(groups:['Extra'])]
+    // #[Assert\Regex( message:"Ceci nes pas un titre valid!")]
     private ?string $title = null;
-
+    
     #[ORM\Column]
+    
     private ?\DateTimeImmutable $createdAt = null;
+    
 
     #[ORM\Column]
+   
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(min:1)]
+    #[Assert\NotBlank()]
+    #[Assert\Positive()]
+    #[assert\LessThan(value:1440)]
     private ?string $duration = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min:50)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]
