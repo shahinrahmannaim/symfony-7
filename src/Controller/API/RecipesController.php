@@ -1,7 +1,11 @@
 <?php 
 namespace App\Controller\API;
 
+use App\Entity\Recipe;
+use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use Doctrine\ORM\EntityManagerInterface;
+// use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +16,7 @@ class RecipesController extends AbstractController{
     
 
 
-    #[Route('/api/recette')]
+    #[Route('/api/recette',methods:['GET','POST'])]
     public function index(Request $request, RecipeRepository $repository): JsonResponse
     {
         $recipes = $repository->findAll();
@@ -29,13 +33,37 @@ class RecipesController extends AbstractController{
             ];
         }
         
-        // Write JSON data to file for logging or other purposes
+        
        
         
         return $this->json($data);
         
         
     }
+
+    
+    
+    #[Route('/api/recette/create', methods:['GET','POST'])]
+
+    public function create(Request $request, EntityManagerInterface  $em):JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        
+            $recipe = new Recipe();
+            $form = $this->createForm(RecipeType::class,$recipe);
+            $form->handleRequest($request);  
+            
+            if($form->isSubmitted() && $form->isValid()){
+              $em->persist($recipe);
+              $em->flush();
+              
+              
+            }
+            
+            return new JsonResponse("success");
+    }
+
+
 
 
 }

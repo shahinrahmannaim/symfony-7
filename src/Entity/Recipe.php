@@ -20,7 +20,7 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min:10, groups:['Extra'])]
+    #[Assert\Length(min:10)]
     #[BanWord(groups:['Extra'])]
     // #[Assert\Regex( message:"Ceci nes pas un titre valid!")]
     private ?string $title = null;
