@@ -50,15 +50,20 @@ class RecipesController extends AbstractController{
         $data = json_decode($request->getContent(), true);
         
             $recipe = new Recipe();
-            $form = $this->createForm(RecipeType::class,$recipe);
-            $form->handleRequest($request);  
+            $recipe->setTitle($data['title']);
             
-            if($form->isSubmitted() && $form->isValid()){
+            $recipe->setDuration($data['duration']);
+            $recipe->setContent($data['content']);
+            
+            // $form = $this->createForm(RecipeType::class,$recipe);
+            // $form->handleRequest($request);  
+            
+            // if($form->isSubmitted() && $form->isValid()){
               $em->persist($recipe);
               $em->flush();
               
               
-            }
+            // }
             
             return new JsonResponse("success");
     }

@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\RecipeRepository;
 use App\Validator\BanWord;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints  as Assert;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 
@@ -26,13 +28,13 @@ class Recipe
     private ?string $title = null;
     
     #[ORM\Column]
-    
-    private ?\DateTimeImmutable $createdAt = null;
+   
+    private ?\DateTimeImmutable $createdAt;
     
 
     #[ORM\Column]
    
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(min:1)]
@@ -111,5 +113,18 @@ class Recipe
 
         return $this;
     }
+    #[ORM\PrePersist]
+    public function onPrepersist():void{
+        $this->createdAt= new DateTimeImmutable();
+        
+    }
+    #[ORM\PreUpdate]
+    
+    public function onPreUpdate():void{
+        $this->updatedAt = new DateTime();
+    
+    }
+    
+    
 
 }
