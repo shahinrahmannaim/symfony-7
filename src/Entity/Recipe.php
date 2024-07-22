@@ -10,9 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints  as Assert;
 use Symfony\Component\Validator\Constraints\DateTime;
-
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
-
 #[UniqueEntity('title')]
 class Recipe
 { 
@@ -29,12 +27,14 @@ class Recipe
     
     #[ORM\Column]
    
-    private ?\DateTimeImmutable $createdAt;
+     private ? DateTimeImmutable $createdAt = null;
     
 
-    #[ORM\Column]
+    #[ORM\Column (nullable:true )]
+    
+    
    
-    private ?\DateTimeImmutable $updatedAt;
+    private ? DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(min:1)]
@@ -45,7 +45,7 @@ class Recipe
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min:50)]
-    private ?string $content = null;
+    private ? string $content = null;
 
     #[ORM\Column(length: 255)]
    
@@ -114,16 +114,33 @@ class Recipe
         return $this;
     }
     #[ORM\PrePersist]
-    public function onPrepersist():void{
+    public function onPrePersist():void{
         $this->createdAt= new DateTimeImmutable();
         
     }
-    #[ORM\PreUpdate]
+   
     
-    public function onPreUpdate():void{
-        $this->updatedAt = new DateTime();
+
+
+
+   
     
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
+
+    #[ORM\PreUpdate]
+    public function updateTimestamps()
+    {
+        $this->updatedAt = new DateTimeImmutable();
+        if ($this->createdAt === null) {
+            $this->createdAt = new DateTimeImmutable();
+        }
+    }
+
     
     
 

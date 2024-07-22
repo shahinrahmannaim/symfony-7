@@ -81,7 +81,8 @@ public function attacheTimeStamps(PostSubmitEvent $event):void{
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,
-            'validation_groups'=>['Default','Extra']
+            'validation_groups'=>['Default','Extra'],
+            'csrf_protection' => false
         ]);
     }
 }
