@@ -1,0 +1,39 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block body %}
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate laborum praesentium reprehenderit porro rerum ducimus, iure possimus numquam 
+cum excepturi.</p>
+<p>  <a class="btn btn-primary" href="{{  url('admin.recipe.create' )  }}"> Créer</a></p>
+
+
+<table class="table">
+    <thead>
+        <tr>Titre</tr>
+        <tr>Action</tr>
+            
+            {% for recipe in recipes %}
+            <tr>
+                <td>
+                <a href="{{  url('admin.recipe.edit', {id:recipe.id} )  }}"> {{recipe.title}} </a>
+                </td>
+                <td>
+                    <div class="d-flex gap-1" >
+                <a class="btn btn-primary btn-sm" href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">Editer </a>
+                <form action="{{ path('admin.recipe.delete', {id: recipe.id}) }}" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger btn-sm"> Supprimer</button>
+                </form>
+                </div>
+                </td>
+            </tr>
+        
+    {% endfor %} 
+    </thead>
+</table>
+ 
+
+{% endblock %}
+
+
+
