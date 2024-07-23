@@ -60,8 +60,6 @@ class RecipesController extends AbstractController{
               $em->persist($recipe);
               $em->flush();
               
-              
-          
             
             return new JsonResponse("success");
     }

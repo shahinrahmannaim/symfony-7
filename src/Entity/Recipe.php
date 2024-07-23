@@ -8,47 +8,40 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints  as Assert;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity('title')]
+#[ORM\HasLifecycleCallbacks]
 class Recipe
-{ 
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min:10)]
-    #[BanWord(groups:['Extra'])]
-    // #[Assert\Regex( message:"Ceci nes pas un titre valid!")]
+    #[Assert\Length(min: 10)]
+    #[BanWord(groups: ['Extra'])]
     private ?string $title = null;
-    
-    #[ORM\Column]
-   
-     private ? DateTimeImmutable $createdAt = null;
-    
 
-    #[ORM\Column (nullable:true )]
-    
-    
-   
-    private ? DateTimeImmutable $updatedAt = null;
+    #[ORM\Column]
+    private ?DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(min:1)]
-    #[Assert\NotBlank()]
-    #[Assert\Positive()]
-    #[assert\LessThan(value:1440)]
+    #[Assert\Length(min: 1)]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    #[Assert\LessThan(value: 1440)]
     private ?string $duration = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(min:50)]
-    private ? string $content = null;
+    #[Assert\Length(min: 50)]
+    private ?string $content = null;
 
-    #[ORM\Column(length: 255)]
-   
     public function getId(): ?int
     {
         return $this->id;
@@ -62,31 +55,28 @@ class Recipe
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -98,7 +88,6 @@ class Recipe
     public function setDuration(?string $duration): static
     {
         $this->duration = $duration;
-
         return $this;
     }
 
@@ -110,38 +99,28 @@ class Recipe
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
+
     #[ORM\PrePersist]
-    public function onPrePersist():void{
-        $this->createdAt= new DateTimeImmutable();
-        
-    }
-   
-    
-
-
-
-   
-    
-
-    public function __construct()
+    public function onPrePersist(): void
     {
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = new DateTimeImmutable();
     }
 
     #[ORM\PreUpdate]
-    public function updateTimestamps()
+    public function onPreUpdate(): void
     {
         $this->updatedAt = new DateTimeImmutable();
-        if ($this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable();
-        }
     }
 
-    
-    
-
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
+    }
 }
+
+
+
