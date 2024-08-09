@@ -9,8 +9,12 @@ cum excepturi.</p>
 
 <table class="table">
     <thead>
-        <tr>Titre</tr>
-        <tr>Action</tr>
+        <tr>
+            <th>Titre</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+      
             
             {% for recipe in recipes %}
             <tr>
@@ -18,7 +22,10 @@ cum excepturi.</p>
                 <a href="{{  url('admin.recipe.edit', {id:recipe.id} )  }}"> {{recipe.title}} </a>
                 </td>
                 <td>
-                    <div class="d-flex gap-1" >
+                    {{recipe.category.name |  default('')}}
+                </td>
+                <td>
+                <div class="d-flex gap-1" >
                 <a class="btn btn-primary btn-sm" href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">Editer </a>
                 <form action="{{ path('admin.recipe.delete', {id: recipe.id}) }}" method="post">
                 <input type="hidden" name="_method" value="DELETE">
@@ -31,7 +38,7 @@ cum excepturi.</p>
     {% endfor %} 
     </thead>
 </table>
- 
+{{  knp_pagination_render(recipes)}}  
 
 {% endblock %}
 

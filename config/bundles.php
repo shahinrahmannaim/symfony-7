@@ -12,4 +12,12 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+    SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle::class => ['all' => true],
+    Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+    FOS\RestBundle\FOSRestBundle::class => ['all' => true],
+    Symfony\UX\Turbo\TurboBundle::class => ['all' => true],
+    Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
+    ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
 ];

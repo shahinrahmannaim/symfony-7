@@ -7,12 +7,17 @@ use App\Validator\BanWord;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity('title')]
 #[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable()]
 class Recipe
 {
     #[ORM\Id]
@@ -41,6 +46,17 @@ class Recipe
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 50)]
     private ?string $content = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'recipes')]
+    #[ORM\JoinColumn(nullable: true)]
+        private ?Category $category = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnail = null;
+    
+    #[Vich\UploadableField(mapping:'recipes',fileNameProperty:'thumbnail')]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
 
     public function getId(): ?int
     {
@@ -119,6 +135,41 @@ class Recipe
     {
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(?string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile): static
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+        return $this;
     }
 }
 
