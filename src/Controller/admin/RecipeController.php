@@ -1,55 +1,40 @@
 <?php
 
-namespace App\Controller\admin;
-// use\App\Entity\Recipe;
+namespace App\Controller\Admin;
+
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
+use App\Repository\CategoryRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Constraints\Json;
 
 
 #[Route('/admin/recettes', name:'admin.recipe.')]
+#[IsGranted('ROLE_ADMIN')]
 
 class RecipeController extends AbstractController
 {
    
     #[Route('/', name: 'index')]
-    public function index(Request $request, RecipeRepository $repository, EntityManagerInterface $em): Response
+    public function index(Request $request, RecipeRepository $repository, CategoryRepository $categoryRepository ): Response
     {
-      // dd($em->getRepository(Recipe::class));
-       $recipes = $repository ->findWithDuration(100);
-    //    dd($recipes);
-    // $recipes[0]->setTitle('Pâtes bolognaise');
-    // $em->flush();
-    
-    // pour ansere de donnees
-    $recipe = new Recipe();
-    // $recipe->setTitle('Barbe papa')
-    //         ->setContent('Mettez du sucre')
-    //         ->setDuration(2)
-    //         ->setCreatedAt(new \DateTimeImmutable())
-    //         ->setUpdatedAt(new \DateTimeImmutable());
-    // $em->persist($recipe);
-    
-
-    // supprimer de base de donnees
-    
-    // $em->remove($recipes[0]);
-    // $em->flush();
-    
-    
-
-    
-      return $this->render('admin/recipe/index.html.twig',[
-        'recipes'=>$recipes
-      ]); 
+      $page = $request->query->getInt( 'page', 1);
+      
+      $recipes = $repository->paginateRecipes($page);
+  
+      return
+      $this->render ('admin/recipe/index.html.twig', [
+      'recipes' => $recipes
+      ]);
         
     }
     #[Route('/create', name:'create')]
@@ -64,7 +49,7 @@ class RecipeController extends AbstractController
         $em->persist($recipe);
         $em->flush();
         $this->addFlash('success','La recette a bien été crée');
-        return $this->redirectToRoute('recipe.index'); 
+        return $this->redirectToRoute('admin.recipe.index'); 
       }
       
       return $this->render('admin/recipe/create.html.twig',[
@@ -77,6 +62,7 @@ class RecipeController extends AbstractController
     #[Route('/{id}', name:'edit', methods:['GET','POST'],requirements:['id'=>Requirement::DIGITS])]
     
     public function edit(Recipe $recipe , Request $request, EntityManagerInterface $em){
+      // $thumbnailFile = $recipe->getThumbnail();
       $form = $this->createForm(RecipeType::class,$recipe);
       $form->handleRequest($request);  
       
@@ -85,10 +71,11 @@ class RecipeController extends AbstractController
         // $recipe->setUpdatedAt(new \DateTimeImmutable());
           $em->flush();
         $this->addFlash('success','La recette a bien ete modifie');
-          return $this->redirectToRoute('recipe.index');
+          return $this->redirectToRoute('admin.recipe.index');
     }      
-      return $this->render('admin/recipe/recipe/edit.html.twig',[
+      return $this->render('admin/recipe/edit.html.twig',[
         'recipe'=>$recipe,
+        // 'thumbnailFile' => $thumbnailFile,
         'form'=>$form
       ]);
     }
@@ -103,7 +90,7 @@ class RecipeController extends AbstractController
 
       $this->addFlash('success','the recipe has been deleted !!!');
  
-      return $this->redirectToRoute('recipe.index');
+      return $this->redirectToRoute('admin.recipe.index');
 
       
     
