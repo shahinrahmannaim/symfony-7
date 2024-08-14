@@ -44,8 +44,7 @@ class RecipeController extends AbstractController
       $form->handleRequest($request);  
       
       if($form->isSubmitted() && $form->isValid()){
-        // $recipe->setCreatedAt(new \DateTimeImmutable());
-        // $recipe->setUpdatedAt(new \DateTimeImmutable());
+      
         $em->persist($recipe);
         $em->flush();
         $this->addFlash('success','La recette a bien été crée');
@@ -62,20 +61,17 @@ class RecipeController extends AbstractController
     #[Route('/{id}', name:'edit', methods:['GET','POST'],requirements:['id'=>Requirement::DIGITS])]
     
     public function edit(Recipe $recipe , Request $request, EntityManagerInterface $em){
-      // $thumbnailFile = $recipe->getThumbnail();
+     
       $form = $this->createForm(RecipeType::class,$recipe);
       $form->handleRequest($request);  
       
       if($form->isSubmitted() && $form->isValid()) {
-        // $recipe->setCreatedAt(new \DateTimeImmutable());
-        // $recipe->setUpdatedAt(new \DateTimeImmutable());
           $em->flush();
         $this->addFlash('success','La recette a bien ete modifie');
           return $this->redirectToRoute('admin.recipe.index');
     }      
       return $this->render('admin/recipe/edit.html.twig',[
         'recipe'=>$recipe,
-        // 'thumbnailFile' => $thumbnailFile,
         'form'=>$form
       ]);
     }

@@ -22,10 +22,14 @@
 
 
         <nav class="navbar navbar-light bg-primary  ">
-  <div class="">
-    <a class="navbar-brand text-light {{app.current_route == 'admin.recipe.index' ? 'active' : ''}} "  href="{{path('admin.recipe.index')}}" >Administration</a>
-    <a class="navbar-brand text-light {{app.current_route starts with 'admin.recipe.' ? 'active' : '' }} " href="{{path('admin.recipe.index')}}" >Recette</a>
-  <a class="navbar-brand text-light {{app.current_route starts with 'admin.category.' ? 'active' : '' }} " href="{{path('admin.category.index')}}" >Category</a>
+        <div class="container">
+      <a class="navbar-brand text-light {{ app.current_route == 'admin.recipe.index' ? 'active' : '' }}" href="{{ path('admin.recipe.index') }}">Administration</a>
+      <a class="navbar-brand text-light {{ app.current_route starts with 'admin.recipe.' ? 'active' : '' }}" href="{{ path('admin.recipe.index') }}">Recette</a>
+      <a class="navbar-brand text-light {{ app.current_route starts with 'admin.category.' ? 'active' : '' }}" href="{{ path('admin.category.index') }}">Category</a>
+      <div class="d-flex ms-auto">
+          <a class="navbar-brand text-light {{ app.current_route starts with 'admin.category.' ? 'active' : '' }}" href="{{ path('app_logout') }}">Logout</a>
+      </div>
+  </div>
     {# <form class="d-flex"> #}
       {# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button> #}
