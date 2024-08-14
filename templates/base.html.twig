@@ -22,13 +22,14 @@
 
 
         <nav class="navbar navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand {{app.current_route == 'home' ? 'active' : ''}} "  href="" >Accueil</a>
-    <a class="navbar-brand {{app.current_route starts with 'recipe.' ? 'active' : '' }} " href="" >Recette</a>
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+        <div class="container">
+      
+      <a class="navbar-brand" >Recette</a>
+      <a class="navbar-brand" >Category</a>
+      <div class="d-flex ms-auto">
+          <a class="navbar-brand {{ app.current_route starts with 'app_login' ? 'active' : '' }}" href="{{ path('app_login') }}">Login</a>
+        <a class="navbar-brand  {{ app.current_route starts with 'app_register.' ? 'active' : '' }}">Register</a>
+      </div>
   </div>
 </nav>
 

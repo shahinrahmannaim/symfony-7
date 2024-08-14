@@ -1,0 +1,42 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block body %}
+
+
+<p>  <a class="btn btn-primary" href="{{  url('admin.category.create' )  }}"> Créer</a></p>
+
+
+<table class="table">
+    <thead>
+        <tr>Nom</tr>
+        <tr>Action</tr>
+            
+    {% for category in categories %}
+  
+    
+            <tr>
+                <td>{{ category.name }} </td>
+                  
+                
+                <td>
+                    <div class="d-flex gap-1" >
+                <a class="btn btn-primary btn-sm" href="{{ path('admin.category.edit', {id: category.id}) }}">Editer </a>
+                <form action="{{ path('admin.category.delete', {id: category.id}) }}" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger btn-sm"> Supprimer</button>
+                
+                </form>
+
+                </div>
+                </td>
+            </tr>
+        
+    {% endfor %} 
+    </thead>
+</table>
+ 
+
+{% endblock %}
+
+
+
